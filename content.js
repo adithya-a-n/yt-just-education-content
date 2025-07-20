@@ -101,7 +101,8 @@ class YouTubeEducationalFilter {
         });
     }
 
-    scanForContent() {
+    async scanForContent() {
+        await this.loadSettings(); 
         if (!this.isEnabled) return;
 
         // Different selectors for different YouTube pages
@@ -385,6 +386,17 @@ class YouTubeEducationalFilter {
     }
 }
 
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+    if (msg.action === "refreshFilter") {
+        // Re-load the keywords and re-scan
+        (async () => {
+            await filter.loadSettings();
+            filter.scanForContent();
+        })();
+    }
+});
+
+
 // Initialize the filter when the page loads
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
@@ -393,3 +405,4 @@ if (document.readyState === 'loading') {
 } else {
     new YouTubeEducationalFilter();
 }
+

@@ -102,5 +102,11 @@ document.getElementById('add-ent-form').onsubmit = function(e){
 };
 document.getElementById('save-btn').onclick = saveKeywords;
 
+chrome.tabs.query({url: "*://*.youtube.com/*"}, function(tabs) {
+    for (let tab of tabs) {
+        chrome.tabs.sendMessage(tab.id, {action: "refreshFilter"});
+    }
+});
+
 // ---------- Initialization ----------
 loadKeywords();
