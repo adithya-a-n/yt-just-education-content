@@ -23,7 +23,7 @@ A Chrome Extension that blocks non-educational content on YouTube—removing dis
    - Click the green **Code** button ➡️ **Download ZIP**.
    - Or:
      ```
-     git clone https://github.com/YOUR_USERNAME/youtube-educational-filter.git
+     git clone https://github.com/adithya-a-n/yt-just-education-content.git
      ```
 2. **Extract** the ZIP file (if needed).
 3. **Open Chrome**, go to `chrome://extensions/`.
