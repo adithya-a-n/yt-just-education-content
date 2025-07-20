@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "YouTube Educational Content Filter",
-  "version": "1.1",
-  "description": "Blocks non-educational YouTube content.",
+  "version": "1.2",
+  "description": "Blocks non-educational YouTube content. Now with AI filtering (Gemini support)!",
   "permissions": ["storage", "tabs", "scripting"],
   "background": {
     "service_worker": "background.js"

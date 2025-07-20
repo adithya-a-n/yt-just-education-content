@@ -29,8 +29,9 @@ const defaultEntKeywords = [
 
 let eduKeywords = [];
 let entKeywords = [];
+let useAI = false;
+let geminiApiKey = "";
 
-// ---------- Helper Functions ----------
 function renderKeywords(id, arr, removeHandler) {
     const el = document.getElementById(id);
     el.innerHTML = '';
@@ -51,8 +52,16 @@ function renderKeywords(id, arr, removeHandler) {
 function saveKeywords() {
     chrome.storage.sync.set({
         educationalKeywords: eduKeywords,
-        entertainmentKeywords: entKeywords
+        entertainmentKeywords: entKeywords,
+        useAI,
+        geminiApiKey
     }, () => {
+        // Notify content scripts to refresh immediately!
+        chrome.tabs.query({url: "*://*.youtube.com/*"}, function(tabs) {
+            for (let tab of tabs) {
+                chrome.tabs.sendMessage(tab.id, {action: "refreshFilter"});
+            }
+        });
         const msg = document.getElementById('msg');
         msg.textContent = '✅ Changes saved!';
         msg.style.display = 'block';
@@ -61,52 +70,52 @@ function saveKeywords() {
 }
 
 function loadKeywords() {
-    chrome.storage.sync.get(['educationalKeywords', 'entertainmentKeywords'], (data) => {
+    chrome.storage.sync.get(['educationalKeywords', 'entertainmentKeywords', 'useAI', 'geminiApiKey'], (data) => {
         eduKeywords = data.educationalKeywords || defaultEduKeywords.slice();
         entKeywords = data.entertainmentKeywords || defaultEntKeywords.slice();
+        useAI = !!data.useAI;
+        geminiApiKey = (data.geminiApiKey || "");
         renderKeywords('edu-keywords', eduKeywords, i=>{
-            eduKeywords.splice(i,1);
-            renderKeywords('edu-keywords', eduKeywords, arguments.callee);
+            eduKeywords.splice(i,1); renderKeywords('edu-keywords', eduKeywords, arguments.callee);
         });
         renderKeywords('ent-keywords', entKeywords, i=>{
-            entKeywords.splice(i,1);
-            renderKeywords('ent-keywords', entKeywords, arguments.callee);
+            entKeywords.splice(i,1); renderKeywords('ent-keywords', entKeywords, arguments.callee);
         });
+        document.getElementById('use-ai').checked = useAI;
+        document.getElementById('gemini-key').value = geminiApiKey;
     });
 }
 
-// ---------- Event Listeners ----------
-document.getElementById('add-edu-form').onsubmit = function(e){
-    e.preventDefault();
-    const word = document.getElementById('new-edu').value.trim();
-    if(word && !eduKeywords.includes(word.toLowerCase())){
-        eduKeywords.push(word.toLowerCase());
-        renderKeywords('edu-keywords', eduKeywords, i=>{
-            eduKeywords.splice(i,1);
-            renderKeywords('edu-keywords', eduKeywords, arguments.callee);
-        });
-        document.getElementById('new-edu').value = '';
-    }
-};
-document.getElementById('add-ent-form').onsubmit = function(e){
-    e.preventDefault();
-    const word = document.getElementById('new-ent').value.trim();
-    if(word && !entKeywords.includes(word.toLowerCase())){
-        entKeywords.push(word.toLowerCase());
-        renderKeywords('ent-keywords', entKeywords, i=>{
-            entKeywords.splice(i,1);
-            renderKeywords('ent-keywords', entKeywords, arguments.callee);
-        });
-        document.getElementById('new-ent').value = '';
-    }
-};
-document.getElementById('save-btn').onclick = saveKeywords;
-
-chrome.tabs.query({url: "*://*.youtube.com/*"}, function(tabs) {
-    for (let tab of tabs) {
-        chrome.tabs.sendMessage(tab.id, {action: "refreshFilter"});
-    }
+// Event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('add-edu-form').onsubmit = function(e){
+        e.preventDefault();
+        const word = document.getElementById('new-edu').value.trim();
+        if(word && !eduKeywords.includes(word.toLowerCase())){
+            eduKeywords.push(word.toLowerCase());
+            renderKeywords('edu-keywords', eduKeywords, i=>{
+                eduKeywords.splice(i,1); renderKeywords('edu-keywords', eduKeywords, arguments.callee);
+            });
+            document.getElementById('new-edu').value = '';
+        }
+    };
+    document.getElementById('add-ent-form').onsubmit = function(e){
+        e.preventDefault();
+        const word = document.getElementById('new-ent').value.trim();
+        if(word && !entKeywords.includes(word.toLowerCase())){
+            entKeywords.push(word.toLowerCase());
+            renderKeywords('ent-keywords', entKeywords, i=>{
+                entKeywords.splice(i,1); renderKeywords('ent-keywords', entKeywords, arguments.callee);
+            });
+            document.getElementById('new-ent').value = '';
+        }
+    };
+    document.getElementById('use-ai').onchange = function(e){
+        useAI = e.target.checked;
+    };
+    document.getElementById('gemini-key').onchange = function(e){
+        geminiApiKey = e.target.value.trim();
+    };
+    document.getElementById('save-btn').onclick = saveKeywords;
+    loadKeywords();
 });
-
-// ---------- Initialization ----------
-loadKeywords();

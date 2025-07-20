@@ -12,31 +12,25 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f8f9fa;
         }
-
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 20px;
             text-align: center;
         }
-
         .header h1 {
             margin: 0;
             font-size: 16px;
             font-weight: 600;
         }
-
         .header p {
             margin: 5px 0 0 0;
             font-size: 12px;
             opacity: 0.9;
         }
-
         .content {
             padding: 20px;
         }
-
-
         .toggle-section {
             display: flex;
             align-items: center;
@@ -47,12 +41,10 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-
         .toggle-label {
             font-weight: 500;
             color: #333;
         }
-
         .toggle-switch {
             position: relative;
             width: 50px;
@@ -62,11 +54,9 @@
             cursor: pointer;
             transition: background 0.3s;
         }
-
         .toggle-switch.active {
             background: #4CAF50;
         }
-
         .toggle-slider {
             position: absolute;
             top: 2px;
@@ -78,11 +68,9 @@
             transition: transform 0.3s;
             box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
-
         .toggle-switch.active .toggle-slider {
             transform: translateX(26px);
         }
-
         .stats-section {
             background: white;
             padding: 15px;
@@ -90,54 +78,45 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             margin-bottom: 15px;
         }
-
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-top: 10px;
         }
-
         .stat-item {
             text-align: center;
         }
-
         .stat-number {
             font-size: 24px;
             font-weight: bold;
             color: #667eea;
         }
-
         .stat-label {
             font-size: 12px;
             color: #666;
             margin-top: 5px;
         }
-
         .info-section {
             background: #e3f2fd;
             padding: 15px;
             border-radius: 8px;
             border-left: 4px solid #2196F3;
         }
-
         .info-section h3 {
             margin: 0 0 10px 0;
             font-size: 14px;
             color: #1976D2;
         }
-
         .info-section ul {
             margin: 0;
             padding-left: 20px;
             font-size: 12px;
             color: #555;
         }
-
         .info-section li {
             margin-bottom: 5px;
         }
-
         .footer {
             text-align: center;
             padding: 15px;
@@ -145,12 +124,10 @@
             color: #999;
             border-top: 1px solid #eee;
         }
-
         .footer a {
             color: #667eea;
             text-decoration: none;
         }
-
         .status-indicator {
             display: inline-block;
             width: 8px;
@@ -158,11 +135,9 @@
             border-radius: 50%;
             margin-right: 8px;
         }
-
         .status-active {
             background: #4CAF50;
         }
-
         .status-inactive {
             background: #f44336;
         }
@@ -173,7 +148,6 @@
         <h1>🎓 Educational Filter</h1>
         <p>Keep YouTube focused on learning</p>
     </div>
-
     <div class="content">
         <div class="toggle-section">
             <div>
@@ -186,7 +160,6 @@
                 <div class="toggle-slider"></div>
             </div>
         </div>
-
         <div class="stats-section">
             <h3 style="margin: 0 0 10px 0; font-size: 14px;">Session Statistics</h3>
             <div class="stats-grid">
@@ -200,23 +173,22 @@
                 </div>
             </div>
         </div>
-
         <div class="info-section">
             <h3>How it works</h3>
             <ul>
-                <li><strong>Smart Detection:</strong> Analyzes video titles using educational keywords</li>
+                <li><strong>Smart Detection:</strong> Analyzes video titles using educational keywords or AI</li>
                 <li><strong>Auto-blocking:</strong> Hides entertainment, gaming, and non-educational content</li>
                 <li><strong>Focus Mode:</strong> Only educational tutorials, courses, and lessons are shown</li>
                 <li><strong>Channel Recognition:</strong> Recognizes educational channels like Khan Academy</li>
+                <li><strong>AI Mode:</strong> Powered by Gemini for even smarter results</li>
             </ul>
         </div>
+        <a href="options.html" target="_blank" style="display:block;text-align:center;margin-top:8px;">🔧 Advanced Configuration</a>
     </div>
-
     <div class="footer">
-        <p>Educational Content Filter v1.0</p>
+        <p>Educational Content Filter v1.2</p>
         <p><a href="#" id="reset-stats">Reset Statistics</a></p>
     </div>
-
     <script src="popup.js"></script>
 </body>
 </html>

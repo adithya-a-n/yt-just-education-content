@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Configure YouTube Educational Filter</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; background: #f7f7ff;}
+    body { font-family: Arial, sans-serif; max-width: 640px; margin: 20px auto; background: #f7f7ff;}
     h1 { font-size: 22px; margin-bottom: 10px;}
     h2 { font-size: 18px;}
     .section { background: #fff; border-radius: 8px; padding: 16px 20px; box-shadow:0 1px 5px #ccc; margin-bottom: 24px;}
@@ -17,10 +17,33 @@
     .save-btn { background: #0af547; color: #fff; border: none; border-radius: 4px; padding: 7px 20px; font-size:16px; margin-top:10px; cursor:pointer;}
     .save-btn:hover {background: #099d2d;}
     .info { font-size:13px; color: #666;}
+    .api-row {margin-top:18px;}
+    #ai-feature {background: #ede7fa; border-left: 4px solid #b06ff0;padding:16px;}
+    #ai-feature label {font-weight:bold;}
+    .checkbox-label {display:inline-flex;align-items:center;gap:6px;}
+    input[type="text"]#gemini-key {width:320px;}
   </style>
 </head>
 <body>
-  <h1>🔧 Filter Keyword Configuration</h1>
+  <h1>🔧 Filter Keyword & AI Configuration</h1>
+  <div class="section" id="ai-feature">
+    <div>
+      <label class="checkbox-label">
+        <input type="checkbox" id="use-ai" /> <span>Enable AI Filtering (Gemini)</span>
+      </label>
+    </div>
+    <div style="margin-top:9px;">
+      <label for="gemini-key">Gemini API Key:</label>
+      <input type="text" id="gemini-key" placeholder="Paste your Gemini API Key" autocomplete="off"/>
+    </div>
+    <div class="info">
+      <ul>
+        <li>Requires free <a href="https://aistudio.google.com/app/apikey" target="_blank">Gemini API key</a></li>
+        <li>AI-based classification provides more accurate filtering than keywords alone</li>
+        <li>Your key is stored only in your browser</li>
+      </ul>
+    </div>
+  </div>
   <div class="section">
     <h2>Educational Keywords</h2>
     <div id="edu-keywords" class="keyword-list"></div>

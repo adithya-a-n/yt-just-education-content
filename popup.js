@@ -11,19 +11,11 @@ document.addEventListener('DOMContentLoaded', function() {
     loadSettings();
     loadStatistics();
 
-    // Toggle filter on/off
     filterToggle.addEventListener('click', function() {
         const isActive = filterToggle.classList.contains('active');
         const newState = !isActive;
-        
-        // Update UI immediately
         updateToggleUI(newState);
-        
-        // Save new state
         chrome.storage.sync.set({ filterEnabled: newState }, function() {
-            console.log('Filter state updated:', newState);
-            
-            // Reload active YouTube tabs
             chrome.tabs.query({ url: '*://*.youtube.com/*' }, function(tabs) {
                 tabs.forEach(tab => {
                     chrome.tabs.reload(tab.id);
@@ -32,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Reset statistics
     resetStatsLink.addEventListener('click', function(e) {
         e.preventDefault();
         resetStatistics();
@@ -58,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function loadStatistics() {
-        // Get current tab blocked count
         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
             if (tabs[0] && tabs[0].url.includes('youtube.com')) {
                 const tabId = tabs[0].id;
@@ -68,13 +58,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
-
-        // Get total statistics from sync storage
         chrome.storage.sync.get(['totalBlocked', 'totalAllowed'], function(result) {
             const totalBlocked = result.totalBlocked || 0;
             const totalAllowed = result.totalAllowed || 0;
-            
-            // For now, show session stats (could be enhanced to show totals)
             allowedCountElement.textContent = Math.max(0, totalAllowed);
         });
     }
@@ -84,25 +70,17 @@ document.addEventListener('DOMContentLoaded', function() {
             totalBlocked: 0,
             totalAllowed: 0
         }, function() {
-            // Reset UI
             blockedCountElement.textContent = '0';
             allowedCountElement.textContent = '0';
-            
-            // Clear badge
             chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
                 if (tabs[0]) {
                     chrome.action.setBadgeText({ text: '', tabId: tabs[0].id });
                 }
             });
-            
-            console.log('Statistics reset');
         });
     }
 
-    // Update stats every few seconds while popup is open
     const updateInterval = setInterval(loadStatistics, 2000);
-    
-    // Clean up interval when popup closes
     window.addEventListener('beforeunload', function() {
         clearInterval(updateInterval);
     });
