@@ -58,16 +58,21 @@ class YouTubeEducationalFilter {
         this.init();
     }
 
-    init() {
-        this.loadSettings();
+    async init() {
+        await this.loadSettings();
         this.startObserving();
         this.addCustomStyles();
         console.log('YouTube Educational Filter: Initialized');
     }
 
     loadSettings() {
-        chrome.storage.sync.get(['filterEnabled'], (result) => {
-            this.isEnabled = result.filterEnabled !== false; // default to true
+        return new Promise(resolve => {
+            chrome.storage.sync.get(['filterEnabled', 'educationalKeywords', 'entertainmentKeywords'], data => {
+                this.isEnabled = data.filterEnabled !== false;
+                if (Array.isArray(data.educationalKeywords)) this.educationalKeywords = data.educationalKeywords;
+                if (Array.isArray(data.entertainmentKeywords)) this.entertainmentKeywords = data.entertainmentKeywords;
+                resolve();
+            });
         });
     }
 

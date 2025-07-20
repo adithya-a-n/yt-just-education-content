@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Configure YouTube Educational Filter</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; background: #f7f7ff;}
+    h1 { font-size: 22px; margin-bottom: 10px;}
+    h2 { font-size: 18px;}
+    .section { background: #fff; border-radius: 8px; padding: 16px 20px; box-shadow:0 1px 5px #ccc; margin-bottom: 24px;}
+    .keyword-list { margin: 8px 0;}
+    .keyword-item { display: inline-block; background: #e3ecfa; color: #155fa0; border-radius: 6px; margin: 3px 3px 0; padding: 2px 10px;}
+    .keyword-item button { background: none; border: none; color: #da3247; margin-left:4px; cursor:pointer;}
+    form input { margin-right:8px; }
+    .add-btn { background: #1767c2; color: #fff; border: none; border-radius: 4px; padding: 5px 14px; cursor: pointer;}
+    .add-btn:hover { background: #114a88;}
+    .save-btn { background: #0af547; color: #fff; border: none; border-radius: 4px; padding: 7px 20px; font-size:16px; margin-top:10px; cursor:pointer;}
+    .save-btn:hover {background: #099d2d;}
+    .info { font-size:13px; color: #666;}
+  </style>
+</head>
+<body>
+  <h1>🔧 Filter Keyword Configuration</h1>
+  <div class="section">
+    <h2>Educational Keywords</h2>
+    <div id="edu-keywords" class="keyword-list"></div>
+    <form id="add-edu-form">
+      <input type="text" id="new-edu" placeholder="Add educational keyword"/>
+      <button type="submit" class="add-btn">Add</button>
+    </form>
+    <div class="info">Any video whose title or channel contains at least one of these gets an educational score boost.</div>
+  </div>
+  <div class="section">
+    <h2>Entertainment (Blocked) Keywords</h2>
+    <div id="ent-keywords" class="keyword-list"></div>
+    <form id="add-ent-form">
+      <input type="text" id="new-ent" placeholder="Add blocked keyword"/>
+      <button type="submit" class="add-btn">Add</button>
+    </form>
+    <div class="info">Videos with these keywords are more likely to be blocked as non-educational.</div>
+  </div>
+  <button id="save-btn" class="save-btn">Save Settings</button>
+  <div id="msg" style="margin-top: 15px; color:green; display:none;"></div>
+  <script src="options.js"></script>
+</body>
+</html>
